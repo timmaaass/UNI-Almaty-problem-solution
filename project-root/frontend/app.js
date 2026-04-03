@@ -2,11 +2,10 @@ const inputField = document.getElementById('ai-input');
 const button = document.getElementById('ai-btn');
 const outputDiv = document.getElementById('ai-output');
 
-// ВАЖНО: Вставь сюда свой скопированный ключ!
-const MY_API_KEY = "AIzaSyBvwoiX_mi13-Nw7SxdLH9fSUDgL1uxj8Q";
+// ВАЖНО: Вставь сюда свой НОВЫЙ ключ (удалив перед этим все старые на сайте)
+const MY_API_KEY = "AIzaSyB2LNw071RxvXQhkip8urlaUiOOHrEgcfI";
 
-// Это правильный адрес (URL) для подключения к Gemini (модель 1.5 Flash - она очень быстрая)
-// Новый, рабочий адрес
+// Правильный рабочий адрес
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${MY_API_KEY}`;
 
 button.addEventListener('click', async () => {
@@ -17,9 +16,10 @@ button.addEventListener('click', async () => {
         return;
     }
 
-    outputDiv.innerText = "ИИ обрабатывает данные, подожди...";
+    // Делаем красивую надпись ожидания курсивом
+    outputDiv.innerHTML = "<i>ИИ обрабатывает данные, подожди...</i>";
 
-    // Вот здесь мы формируем системный промпт для хакатона
+    // Наш системный промпт для хакатона
     const promptText = `Ты — AI-аналитик системы безопасности города Алматы. 
 Тебе поступили следующие данные от оператора: "${userText}".
 Проанализируй ситуацию и выдай краткий, четкий ответ для дашборда строго по 3 пунктам:
@@ -28,7 +28,6 @@ button.addEventListener('click', async () => {
 3. Какие действия необходимо предпринять: (рекомендации для служб)`;
 
     try {
-        // Отправляем запрос
         const response = await fetch(API_URL, {
             method: "POST",
             headers: {
@@ -43,20 +42,25 @@ button.addEventListener('click', async () => {
 
         const data = await response.json();
 
-        // СУПЕР-ПРОВЕРКА: Если Гугл ответил ошибкой, выводим её прямо на сайт!
+        // Проверка на ошибку от Гугла
         if (!response.ok) {
             console.error("Детальная ошибка от сервера:", data);
-            outputDiv.innerText = `Гугл ругается: ${data.error.message}`;
+            outputDiv.innerHTML = `<b>Гугл ругается:</b> ${data.error.message}`;
             return;
         }
 
-        // Вытаскиваем готовый текст ответа
         const aiResponseText = data.candidates[0].content.parts[0].text;
-        outputDiv.innerText = aiResponseText;
+        
+        // ФИНАЛЬНАЯ МАГИЯ ВИЗУАЛА (Делает текст жирным и ставит точки вместо звездочек)
+        let formattedText = aiResponseText
+            .replace(/\*\*([\s\S]*?)\*\*/g, '<b>$1</b>') 
+            .replace(/\n\* /g, '<br>• ')                 
+            .replace(/\n/g, '<br>');                     
+
+        outputDiv.innerHTML = formattedText;
 
     } catch (error) {
-        // Если ошибка самой сети (например, нет интернета или блочит браузер)
-        console.error("Ой, ошибка сети:", error);
-        outputDiv.innerText = `Ошибка сети: ${error.message}. Если написано "Failed to fetch", значит точно нужен Live Server или VPN.`;
+        console.error("Ошибка сети:", error);
+        outputDiv.innerHTML = `<b>Ошибка сети:</b> ${error.message}`;
     }
 });
