@@ -1,4 +1,4 @@
- * {
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -143,7 +143,7 @@ stats-grid {
     color: #58a6ff;
 }
 .stat-status.warning {
-    color: #d29922; /* Оранжевый статус риска */
+    color: #c88c0b;
     font-weight: bold;
 }
 
@@ -152,7 +152,7 @@ stats-grid {
     color: #484f58;
 }
 
-/* 5. Журнал событий (Таблица) */
+
 .card {
     background-color: #161b22;
     border-radius: 12px;
@@ -200,3 +200,27 @@ stats-grid {
 
 .type-tag {
     padding: 2px 8px;
+     border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+.type-tag.blue { border-color: #388bfd; color: #58a6ff; }
+.type-tag.red { border-color: #f85149; color: #f85149; }
+.type-tag.yellow { border-color: #d29922; color: #d29922; }
+.type-tag.orange { border-color: #f0883e; color: #f0883e; }
+
+
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .nav-menu {
+        width: 100%;
+        overflow-x: auto;
+    }
+}
