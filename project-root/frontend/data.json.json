@@ -1,0 +1,12 @@
+[
+    {"id":1,"area":"Алмалинский","type_incident":"Кража","victims":"Азамат Нурланов","offender":"Ильяс Каримов","time_police_reaction":12,"time":"01:12:23","date":"2026-04-03"},
+    {"id":2,"area":"Бостандыкский","type_incident":"ДТП","victims":"Диана Касымова","offender":"Тимур Бекенов","time_police_reaction":8,"time":"02:45:10","date":"2026-04-03"},
+    {"id":3,"area":"Ауэзовский","type_incident":"Грабеж","victims":"Руслан Ахметов","offender":"Кирилл Иванов","time_police_reaction":15,"time":"03:20:55","date":"2026-04-03"},
+    {"id":4,"area":"Медеуский","type_incident":"Мошенничество","victims":"Мадина Оспанова","offender":"Максим Петров","time_police_reaction":20,"time":"04:05:33","date":"2026-04-03"},
+    {"id":5,"area":"Жетысуский","type_incident":"Хулиганство","victims":"Алина Серикова","offender":"Олег Смирнов","time_police_reaction":10,"time":"05:15:27","date":"2026-04-03"},
+    {"id":6,"area":"Турксибский","type_incident":"Пожар","victims":"Данияр Жумабаев","offender":"Аскар Сулейменов","time_police_reaction":7,"time":"06:44:12","date":"2026-04-03"},
+    {"id":7,"area":"Алатауский","type_incident":"Нападение","victims":"Арман Тлеубергенов","offender":"Жанат Куанышев","time_police_reaction":18,"time":"07:50:01","date":"2026-04-03"},
+    {"id":8,"area":"Наурызбайский","type_incident":"Кража","victims":"Ержан Садыков","offender":"Нурсултан Алиев","time_police_reaction":9,"time":"08:20:17","date":"2026-04-03"},
+    {"id":9,"area":"Алмалинский","type_incident":"ДТП","victims":"Диана Касымова","offender":"Максим Петров","time_police_reaction":14,"time":"09:10:11","date":"2026-04-03"},
+    {"id":10,"area":"Бостандыкский","type_incident":"Грабеж","victims":"Руслан Ахметов","offender":"Кирилл Иванов","time_police_reaction":11,"time":"10:00:55","date":"2026-04-03"}
+]
