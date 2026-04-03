@@ -3,7 +3,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <title>Smart Public Safety Dashboard-Обзор</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css/style">
     </head>
     <body>
         <header class="main-header">
@@ -114,6 +114,33 @@
                         <td>Ильяс Каримов</td>
                         <td>8 мин</td>
                     </tr>
+                    <script>
+async function updateIncidents() {
+    try {
+        const res = await fetch("http://127.0.0.1:5000/api/incidents");
+        const incidents = await res.json();
+
+        const tbody = document.querySelector(".event-table tbody");
+        tbody.innerHTML = ""; // очищаем старые строки
+
+        incidents.forEach(inc => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${inc.time}</td>
+                <td>${inc.area}</td>
+                <td><span class="type-tag">${inc.type}</span></td>
+                <td>${inc.victims}, ${inc.offender}</td>
+                <td>${inc.reaction_time} мин</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (err) {
+        console.error("Ошибка при получении данных:", err);
+    }
+}
+
+updateIncidents(); // вызываем при загрузке страницы
+</script>
                 </tbody>
             </table>
         </div>

@@ -1,24 +1,54 @@
-app = Flask(_name_)
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+import requests
+from config import GOOGLE_API_KEY, ALLOWED_ORIGINS
 
-# GET — получить все инциденты
-@app.route('/api/incidents', methods=['GET'])
-def incidents():
-    data = get_all_incidents()  # функция из utils.py
-    return jsonify(data)
+app = FastAPI()
 
-# POST — добавить новый инцидент
-@app.route('/api/incidents', methods=['POST'])
-def add_new_incident():
-    new_data = request.json
-    add_incident(new_data)  # сохраняем в базе
-    return jsonify({"status": "success"}), 201
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# GET — получить анализ и рекомендации
-@app.route('/api/analysis', methods=['GET'])
-def analysis():
-    incidents = get_all_incidents()
-    report = analyze_incidents(incidents)  # функция из ai.py
-    return jsonify(report)
+@app.post("/api/analyze")
+async def analyze(request: Request):
+    data = await request.json()
+    user_text = data.get("text", "")
 
-if _name_ == '_main_':
-    app.run(debug=True)
+    # Промпт
+    prompt = f"""
+Ты — AI-аналитик городской безопасности Алматы.
+
+Данные: {user_text}
+
+Ответь строго:
+1. Что происходит
+2. Насколько это опасно
+3. Что делать
+"""
+
+    # Запрос к Google AI
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GOOGLE_API_KEY}"
+
+    response = requests.post(
+        url,
+        json={
+            "contents": [
+                {
+                    "parts": [{"text": prompt}]
+                }
+            ]
+        }
+    )
+
+    result = response.json()
+
+    try:
+        text = result["candidates"][0]["content"]["parts"][0]["text"]
+    except:
+        text = "Ошибка AI или лимит. Попробуй позже."
+
+    return {"result": text}
